@@ -96,13 +96,23 @@
     <div class="modal fade" id="cart" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-body">
+                <div class="modal-body body-hidden">
                     <?php if (empty($carts)) : ?>
                         <p class="text-center">Keranjang kosong</p>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <?php else : ?>
-                        <input type="text" name="customer" id="customer" class="d-block" placeholder="Silahkan masukkan nama" class="form-control mb-3">
-                        <table class="table">
+                        <?= form_open_multipart('home/transaksi') ?>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="#customer" class="fw-bold">Nama Customer</label>
+                                <input type="text" name="customer" id="customer" class="d-block" placeholder="Silahkan masukkan nama" class="form-control mb-3">
+                            </div>
+                            <div class="col-6">
+                                <label for="#receipt" class="fw-bold">Bukti Pembayaran</label>
+                                <input type="file" name="receipt" id="receipt">
+                            </div>
+                        </div>
+                        <table class="table table-striped">
                             <tbody>
                                 <?php foreach ($carts as $item) : ?>
                                     <tr>
@@ -118,15 +128,12 @@
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                        <!-- <div class="d-flex flex-row-reverse me-5">
-                            <p>Pajak : <?= number_to_currency(5000, 'IDR', 'id_ID', 0); ?></p>
-                        </div>
-                        <hr> -->
                         <div class="d-flex flex-row-reverse me-5">
                             <p>Total : <?= number_to_currency($keranjang->total(), 'IDR', 'id_ID', 0); ?></p>
                         </div>
-                        <button type="submit" id="bayar" class="btn btn-primary">Bayar</button>
+                        <button type="submit" id="order" class="btn btn-primary">Pesan</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <?= form_close() ?>
                     <?php endif ?>
                 </div>
             </div>
@@ -171,76 +178,23 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Pastikan elemen dengan ID customer dan bayar ada di DOM
         const customerInput = document.getElementById('customer');
-        const btnBayar = document.getElementById('bayar');
+        const receiptInput = document.getElementById('receipt')
+        const btnOrder = document.getElementById('order');
 
-        if (customerInput && btnBayar) {
-            function checkCustomerInput() {
-                if (customerInput.value.trim() === '') {
-                    btnBayar.setAttribute('disabled', true);
-                } else {
-                    btnBayar.removeAttribute('disabled');
-                }
+        function checkCustomerInput() {
+            if (customerInput.value.trim() === '' || receiptInput.files.length === 0) {
+                btnOrder.setAttribute('disabled', true);
+            } else {
+                btnOrder.removeAttribute('disabled');
             }
-
-
-            customerInput.addEventListener('input', checkCustomerInput);
-            checkCustomerInput();
-
-            btnBayar.addEventListener('click', async function(e) {
-                e.preventDefault();
-                const customerName = customerInput.value.trim();
-
-                try {
-                    const response = await fetch('<?= base_url('/home/checkout') ?>', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest',
-                            '<?= csrf_token(); ?>': '<?= csrf_hash(); ?>',
-                        },
-                        body: JSON.stringify({
-                            customer: customerName
-                        }),
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const data = await response.json();
-                    console.log(data)
-                    const snapToken = data.token
-                    const params = data.params
-                    console.log(params)
-
-                    if (snapToken) {
-                        window.snap.pay(snapToken, {
-                            onSuccess: function(result) {
-                                alert('Pembayaran berhasil!');
-                                console.log(result)
-                                window.location.href = '<?= base_url('/home/success') ?>';
-                            },
-                            onPending: function(result) {
-                                alert('Pembayaran sedang diproses.');
-                                console.log(result);
-                            },
-                            onError: function(result) {
-                                alert('Pembayaran gagal.');
-                                console.log(result);
-                            },
-                            // onClose: function() {
-                            //     alert('Anda menutup popup tanpa menyelesaikan pembayaran.');
-                            // }
-                        });
-                    } else {
-                        console.error('SnapToken tidak diterima:', data);
-                    }
-
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            });
         }
+
+
+        customerInput.addEventListener('input', checkCustomerInput);
+        receiptInput.addEventListener('change', checkCustomerInput);
+
+        checkCustomerInput();
+
     });
 </script>
 
