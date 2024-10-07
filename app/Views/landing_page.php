@@ -102,7 +102,6 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <?php else : ?>
                         <input type="text" name="customer" id="customer" class="d-block" placeholder="Silahkan masukkan nama" class="form-control mb-3">
-                        <input type="text" name="customer" id="customer" class="d-block" placeholder="Silahkan masukkan nama" class="form-control mb-3">
                         <table class="table">
                             <tbody>
                                 <?php foreach ($carts as $item) : ?>
@@ -124,7 +123,7 @@
                         </div>
                         <hr> -->
                         <div class="d-flex flex-row-reverse me-5">
-                            <p>Total : <?= number_to_currency($keranjang->total() + 5000, 'IDR', 'id_ID', 0); ?></p>
+                            <p>Total : <?= number_to_currency($keranjang->total(), 'IDR', 'id_ID', 0); ?></p>
                         </div>
                         <button type="submit" id="bayar" class="btn btn-primary">Bayar</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -187,61 +186,60 @@
             customerInput.addEventListener('input', checkCustomerInput);
             checkCustomerInput();
 
-            // Event listener for the "Bayar" button
-            // btnBayar.addEventListener('click', async function(e) {
-            //     e.preventDefault();
-            //     const customerName = customerInput.value.trim();
+            btnBayar.addEventListener('click', async function(e) {
+                e.preventDefault();
+                const customerName = customerInput.value.trim();
 
-            //     try {
-            //         const response = await fetch('<?= base_url('/home/checkout') ?>', {
-            //             method: 'POST',
-            //             headers: {
-            //                 'Content-Type': 'application/json',
-            //                 'X-Requested-With': 'XMLHttpRequest',
-            //                 '<?= csrf_token(); ?>': '<?= csrf_hash(); ?>',
-            //             },
-            //             body: JSON.stringify({
-            //                 customer: customerName
-            //             }),
-            //         });
+                try {
+                    const response = await fetch('<?= base_url('/home/checkout') ?>', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            '<?= csrf_token(); ?>': '<?= csrf_hash(); ?>',
+                        },
+                        body: JSON.stringify({
+                            customer: customerName
+                        }),
+                    });
 
-            //         if (!response.ok) {
-            //             throw new Error(`HTTP error! status: ${response.status}`);
-            //         }
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
 
-            //         const data = await response.json();
-            //         console.log(data)
-            //         const snapToken = data.token
-            //         const params = data.params
-            //         console.log(params)
+                    const data = await response.json();
+                    console.log(data)
+                    const snapToken = data.token
+                    const params = data.params
+                    console.log(params)
 
-            //         if (snapToken) {
-            //             window.snap.pay(snapToken, {
-            //                 onSuccess: function(result) {
-            //                     alert('Pembayaran berhasil!');
-            //                     console.log(result)
-            //                     window.location.href = '<?= base_url('/home/success') ?>';
-            //                 },
-            //                 onPending: function(result) {
-            //                     alert('Pembayaran sedang diproses.');
-            //                     console.log(result);
-            //                 },
-            //                 onError: function(result) {
-            //                     alert('Pembayaran gagal.');
-            //                     console.log(result);
-            //                 },
-            //                 // onClose: function() {
-            //                 //     alert('Anda menutup popup tanpa menyelesaikan pembayaran.');
-            //                 // }
-            //             });
-            //         } else {
-            //             console.error('SnapToken tidak diterima:', data);
-            //         }
+                    if (snapToken) {
+                        window.snap.pay(snapToken, {
+                            onSuccess: function(result) {
+                                alert('Pembayaran berhasil!');
+                                console.log(result)
+                                window.location.href = '<?= base_url('/home/success') ?>';
+                            },
+                            onPending: function(result) {
+                                alert('Pembayaran sedang diproses.');
+                                console.log(result);
+                            },
+                            onError: function(result) {
+                                alert('Pembayaran gagal.');
+                                console.log(result);
+                            },
+                            // onClose: function() {
+                            //     alert('Anda menutup popup tanpa menyelesaikan pembayaran.');
+                            // }
+                        });
+                    } else {
+                        console.error('SnapToken tidak diterima:', data);
+                    }
 
-            //     } catch (error) {
-            //         console.error('Error:', error);
-            //     }
-            // });
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
         }
     });
 </script>
