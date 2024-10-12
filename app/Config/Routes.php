@@ -15,7 +15,7 @@ $routes->get('/delete/(:any)', 'Home::delete/$1', ['as' => 'delete']);
 
 
 $routes->group('admin', static function ($routes) {
-    $routes->get('/', 'AdminController::index', ['as' => 'beranda']);
+    $routes->addRedirect('/', 'admin/transaksi');
     $routes->get('transaksi', 'TransaksiController::index', ['as' => 'transaksi']);
     $routes->post('transaksi/ready/(:any)', 'TransaksiController::ready/$1', ['as' => 'ready']);
     $routes->group('data-menu', static function ($routes) {

@@ -27,19 +27,19 @@ class Home extends BaseController
     public function index()
     {
         if (session()->has('username')) {
-            return redirect()->route('beranda');
+            return redirect()->route('transaksi');
         }
 
-        if (session()->has('token')) {
-            $data['token'] = session()->getFlashdata('token');
-        }
+        // if (session()->has('token')) {
+        //     $data['token'] = session()->getFlashdata('token');
+        // }
 
         $kategori = $this->kategoriModel->findAll();
 
         $category = $this->request->getVar('category');
 
         if ($category) {
-            $items = $this->menuModel->getAll($category);
+            $items = $this->menuModel->getCategory($category);
         } else {
             $items = $this->menuModel->findAll();
         }
@@ -72,7 +72,7 @@ class Home extends BaseController
             if (password_verify($user['password'], $admin['password'])) {
                 $params['username'] = $admin['username'];
                 session()->set($params);
-                return redirect()->route('beranda');
+                return redirect()->route('transaksi');
             } else {
                 return redirect()->back();
             }
