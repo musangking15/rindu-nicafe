@@ -40,20 +40,26 @@ class TransaksiController extends BaseController
 
     public function riwayat()
     {
-        $filter = $this->request->getVar('date');
+        $filterDate = $this->request->getVar('date');
+        $tahun = $this->request->getVar('year') ?? date('Y');
 
-        if (!$filter) {
-            $filter = date('Y-m-d');
+        if (!$filterDate) {
+            $filterDate = date('Y-m-d');
         }
 
-
+        $pendapatan = $this->transaksiModel->getYear($tahun);
 
         $riwayat = $this->transaksiModel
             ->where('is_ready', 2)
-            ->Where('tanggal', $filter)
+            ->Where('tanggal', $filterDate)
             ->find();
 
-        $data['riwayat'] = $riwayat;
+
+        $data = [
+            'riwayat'    => $riwayat,
+            'pendapatan' => $pendapatan,
+            'tahun'      => $tahun
+        ];
 
         return view('admin/riwayat', $data);
     }
