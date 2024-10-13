@@ -102,6 +102,7 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <?php else : ?>
                         <?= form_open_multipart('home/transaksi') ?>
+                        <p class="fst-italic">*Wajib mengisi nama dan bukti pembayaran</p>
                         <div class="row mb-3">
                             <div class="col-6">
                                 <label for="#customer" class="fw-bold">Nama Customer</label>
@@ -145,8 +146,8 @@
     <div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header d-flex justify-content-center">
-                    <p class="modal-title fs-2 fw-bold" id="staticBackdropLabel">Login</p>
+                <div class="modal-header d-flex justify-content-center bg-info">
+                    <p class="modal-title fs-2 fw-bold text-light" id="staticBackdropLabel">Login</p>
                 </div>
                 <div class="modal-body">
                     <form method="post" action="<?= url_to('login'); ?>">
@@ -162,8 +163,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-info text-light fw-bold">Login</button>
+                    <button type="button" class="btn btn-danger fw-bold" data-bs-dismiss="modal">Close</button>
                     </form>
                 </div>
             </div>

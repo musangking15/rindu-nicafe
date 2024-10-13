@@ -76,8 +76,8 @@
     <div class="modal fade" id="exampleModal<?= $value['id_menu']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><?= $value['nama_makanan']; ?></h5>
+                <div class="modal-header bg-gradient-primary">
+                    <h5 class="modal-title text-light" id="exampleModalLabel"><?= $value['nama_makanan']; ?></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -86,15 +86,23 @@
                     <ul class="list-group">
                         <li class="list-group-item text-center"><img src="<?= base_url(); ?>gambar/<?= $value['gambar']; ?>" width="auto" height="100"></li>
                         <li class="list-group-item">
+                            <div class="row text-center">
+                                <div class="col-md-6">
+                                    <?= $value['nama_kategori']; ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?= number_to_currency($value['harga'], 'IDR', 'id_ID', 0); ?>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
                             <h4><?= $value['deskripsi']; ?></h4>
                         </li>
-                        <li class="list-group-item"><?= number_to_currency($value['harga'], 'IDR', 'id_ID', 0); ?></li>
-                        <li class="list-group-item"><?= $value['nama_kategori']; ?></li>
                     </ul>
                 </div>
-                <div class="modal-footer">
+                <!-- <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
