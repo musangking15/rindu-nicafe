@@ -21,14 +21,28 @@
             <label for="harga">Harga</label>
             <input type="number" class="form-control" id="harga" name="harga" value="<?= $menu['harga']; ?>">
         </div>
-        <div class="form-group">
-            <label for="id_kategori" class="d-block">Kategori</label>
-            <select name="id_kategori" id="id_kategori">
-                <?php foreach ($kategori as $value) : ?>
-                    <option value="<?= $value['id_kategori']; ?>" <?= $value['id_kategori'] == $menu['kategori'] ? 'selected' : '' ?>><?= $value['nama_kategori']; ?></option>
-                <?php endforeach ?>
-            </select>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="id_kategori" class="d-block">Kategori</label>
+                    <select name="id_kategori" id="id_kategori">
+                        <?php foreach ($kategori as $value) : ?>
+                            <option value="<?= $value['id_kategori']; ?>" <?= $value['id_kategori'] == $menu['kategori'] ? 'selected' : '' ?>><?= $value['nama_kategori']; ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="post" class="d-block">Posting</label>
+                    <select name="post" id="post">
+                        <option value="publish" <?= $menu['post'] == 'publish' ? 'selected' : '' ?>>Publish</option>
+                        <option value="draft" <?= $menu['post'] == 'draft' ? 'selected' : '' ?>>Draft</option>
+                    </select>
+                </div>
+            </div>
         </div>
+
         <div class="form-group">
             <label for="gambar">Gambar</label>
             <input type="file" class="form-control" id="gambar" name="gambar" value="<?= $menu['gambar']; ?>">

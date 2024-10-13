@@ -8,7 +8,7 @@ class MenuModel extends Model
 {
     protected $table            = 'tbl_menu';
     protected $primaryKey       = 'id_menu';
-    protected $allowedFields    = ['nama_makanan', 'deskripsi', 'kategori', 'harga', 'gambar'];
+    protected $allowedFields    = ['nama_makanan', 'deskripsi', 'kategori', 'harga', 'gambar', 'post'];
 
 
     public function getAll()
@@ -26,6 +26,7 @@ class MenuModel extends Model
             ->select('tbl_menu.*, tbl_kategori.nama_kategori AS nama_kategori')
             ->join('tbl_kategori', 'tbl_kategori.id_kategori = tbl_menu.kategori')
             ->where('nama_kategori', $category)
+            ->where('post', 'publish')
             ->get()
             ->getResultArray();
     }

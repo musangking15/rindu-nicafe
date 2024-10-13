@@ -41,7 +41,7 @@ class Home extends BaseController
         if ($category) {
             $items = $this->menuModel->getCategory($category);
         } else {
-            $items = $this->menuModel->findAll();
+            $items = $this->menuModel->where('post', 'publish')->findAll();
         }
 
         $data = [

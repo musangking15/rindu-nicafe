@@ -20,14 +20,28 @@
             <label for="harga">Harga</label>
             <input type="number" class="form-control" id="harga" name="harga" value="<?= old('harga'); ?>">
         </div>
-        <div class="form-group">
-            <label for="id_kategori" class="d-block">Kategori</label>
-            <select name="id_kategori" id="id_kategori">
-                <option value="" disabled selected>Pilih Kategori</option>
-                <?php foreach ($kategori as $value) : ?>
-                    <option value="<?= $value['id_kategori']; ?>"><?= $value['nama_kategori']; ?></option>
-                <?php endforeach ?>
-            </select>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="id_kategori" class="d-block">Kategori</label>
+                    <select name="id_kategori" id="id_kategori">
+                        <option value="" disabled selected>Pilih Kategori</option>
+                        <?php foreach ($kategori as $value) : ?>
+                            <option value="<?= $value['id_kategori']; ?>"><?= $value['nama_kategori']; ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="post" class="d-block">Posting</label>
+                    <select name="post" id="post">
+                        <option value="" disabled selected>Pilih Posting</option>
+                        <option value="publish">Publish</option>
+                        <option value="draft">Draft</option>
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label for="gambar">Gambar</label>

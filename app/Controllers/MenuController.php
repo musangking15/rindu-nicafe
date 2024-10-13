@@ -43,10 +43,11 @@ class MenuController extends BaseController
     {
         $validationRules = [
             'nama_makanan' => 'required',
-            'deskripsi' => 'required',
-            'harga' => 'required|numeric',
-            'id_kategori' => 'required',
-            'gambar' => 'uploaded[gambar]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
+            'deskripsi'    => 'required',
+            'harga'        => 'required|numeric',
+            'id_kategori'  => 'required',
+            'post'         => 'required',
+            'gambar'       => 'uploaded[gambar]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
         ];
 
         if (!$this->validate($validationRules)) {
@@ -56,6 +57,7 @@ class MenuController extends BaseController
         $nama_makanan = $this->request->getVar('nama_makanan');
         $deskripsi = $this->request->getVar('deskripsi');
         $harga = $this->request->getVar('harga');
+        $post = $this->request->getVar('post');
         $id_kategori = intval($this->request->getVar('id_kategori'));
         $gambar = $this->request->getFile('gambar');
 
@@ -69,6 +71,7 @@ class MenuController extends BaseController
             'nama_makanan' => $nama_makanan,
             'deskripsi' => $deskripsi,
             'harga' => $harga,
+            'post' => $post,
             'kategori' => $id_kategori,
             'gambar' => $gambarPath,
         ];
@@ -110,12 +113,14 @@ class MenuController extends BaseController
         $nama_makanan = $this->request->getVar('nama_makanan');
         $deskripsi = $this->request->getVar('deskripsi');
         $harga = $this->request->getVar('harga');
+        $post = $this->request->getVar('post');
         $id_kategori = intval($this->request->getVar('id_kategori'));
 
         $menuData = [
             'nama_makanan' => $nama_makanan,
             'deskripsi' => $deskripsi,
             'harga' => $harga,
+            'post' => $post,
             'id_kategori' => $id_kategori,
         ];
 
