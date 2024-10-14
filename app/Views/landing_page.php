@@ -8,6 +8,8 @@
         src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="SB-Mid-client-1HbQdzP9Etrnz8U8"></script>
     <title>Rindu Nicafe</title>
+    <!-- Favicon -->
+    <link rel="icon" href="<?= base_url(); ?>/img/logo2.png" sizes="16x16" type="image/png">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Bootstrap Font Icon CSS -->
@@ -19,7 +21,7 @@
     <!-- start navbar -->
     <nav class="navbar navbar-expand-lg bg-info">
         <div class="container">
-            <a class="navbar-brand fs-3 fw-semibold" href="#">Rindu <span class="text-danger">Nicafe</span></a>
+            <a class="navbar-brand fs-3 fw-semibold" href="#">Rindu<span class="text-danger">Nicafe</span></a>
             <button class="btn btn-warning ms-auto me-2 position-relative" data-bs-toggle="modal" data-bs-target="#cart"><i class="bi bi-cart-fill"></i>
                 <?php if (empty($carts)) : ?>
                 <?php else : ?>
@@ -77,11 +79,14 @@
                             <img src="<?= base_url('gambar/') . $item['gambar'] ?>" class="card-img-top">
                             <div class="card-body">
                                 <p class="card-title fw-bold"><?= $item['nama_makanan']; ?></p>
-                                <p class="card-text"><?= $item['deskripsi']; ?></p>
+                                <div class="deskripsi">
+                                    <p><?= $item['deskripsi']; ?></p>
+                                </div>
                                 <p class="card-text"><?= number_to_currency($item['harga'], 'IDR', 'id_ID', 0); ?></p>
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-primary">Beli</button>
                                 </div>
+                                <div class="tooltip-note"><?= $item['deskripsi']; ?></div>
                             </div>
                         </div>
                         <?= form_close(); ?>
@@ -175,9 +180,18 @@
 </body>
 <!-- Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<!-- Sweet Alert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Pastikan elemen dengan ID customer dan bayar ada di DOM
+        <?php if (session()->getFlashdata('pesan1')) : ?>
+            Swal.fire({
+                icon: '<?= session()->getFlashdata('jenis'); ?>',
+                title: '<?= session()->getFlashdata('pesan1'); ?>',
+                text: '<?= session()->getFlashdata('pesan2'); ?>'
+            });
+        <?php endif; ?>
+
         const customerInput = document.getElementById('customer');
         const receiptInput = document.getElementById('receipt')
         const btnOrder = document.getElementById('order');

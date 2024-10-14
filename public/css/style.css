@@ -27,8 +27,40 @@ body {
   width: 100%;
 }
 
+.tooltip-note {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.card:hover .tooltip-note {
+  opacity: 1;
+  visibility: visible;
+}
+
 @media only screen and (max-width: 600px) {
   .card-img-top {
     height: 200px;
+  }
+
+  .deskripsi {
+    height: auto;
+  }
+
+  .deskripsi p {
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

@@ -25,7 +25,7 @@ class AuthFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!session('username')) {
+        if (!session()->has('username')) {
             return redirect()->to('/');
         }
     }
@@ -44,6 +44,10 @@ class AuthFilter implements FilterInterface
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        //
+        // if (session()->has('username')) {
+        //     if ($request->uri->getPath() === '/') {
+        //         return redirect()->route('transaksi');
+        //     }
+        // }
     }
 }

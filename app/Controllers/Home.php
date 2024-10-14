@@ -63,6 +63,9 @@ class Home extends BaseController
         $user = $this->request->getVar();
 
         if (empty($user['username']) || empty($user['password'])) {
+            session()->setFlashdata('jenis', 'warning');
+            session()->setFlashdata('pesan1', 'Gagal Login!');
+            session()->setFlashdata('pesan2', 'Username dan Password tidak boleh kosong');
             return redirect()->back();
         }
 
@@ -74,9 +77,15 @@ class Home extends BaseController
                 session()->set($params);
                 return redirect()->route('transaksi');
             } else {
+                session()->setFlashdata('jenis', 'warning');
+                session()->setFlashdata('pesan1', 'Gagal Login!');
+                session()->setFlashdata('pesan2', 'Password salah');
                 return redirect()->back();
             }
         } else {
+            session()->setFlashdata('jenis', 'warning');
+            session()->setFlashdata('pesan1', 'Gagal Login!');
+            session()->setFlashdata('pesan2', 'Username salah');
             return redirect()->back();
         }
     }
@@ -87,16 +96,14 @@ class Home extends BaseController
         return redirect()->to('/');
     }
 
-    public function cek()
-    {
-        dd($this->cart->contents());
-    }
+    // public function cek()
+    // {
+    //     dd($this->cart->contents());
+    // }
 
     public function destroy()
     {
-        $this->cart->destroy();
-
-        return redirect()->to('/');
+        return $this->cart->destroy();
     }
 
     public function add()
@@ -164,12 +171,22 @@ class Home extends BaseController
         ];
 
         // Simpan ke database
-        $this->transaksiModel->insert($data);
+        $transaksi =  $this->transaksiModel->insert($data);
 
-        // Kosongkan keranjang
-        $this->cart->destroy();
+        if ($transaksi) {
+            // Kosongkan keranjang
+            $this->destroy();
 
-        return redirect()->to('/');
+            session()->setFlashdata('jenis', 'success');
+            session()->setFlashdata('pesan1', 'Success!');
+            session()->setFlashdata('pesan2', 'Terima kasih, pesanan Anda sedang diproses');
+            return redirect()->to('/');
+        } else {
+            session()->setFlashdata('jenis', 'error');
+            session()->setFlashdata('pesan1', 'Failed!');
+            session()->setFlashdata('pesan2', 'Maaf, pesanan gagal');
+            return redirect()->to('/');
+        }
     }
 }
 

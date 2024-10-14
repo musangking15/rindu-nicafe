@@ -12,6 +12,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
+
             <form action="<?= base_url('admin/riwayat'); ?>" method="get">
                 <input type="date" name="date">
                 <button type="submit" class="btn btn-primary btn-sm">Search</button>

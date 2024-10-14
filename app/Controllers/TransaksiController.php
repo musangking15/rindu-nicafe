@@ -23,7 +23,9 @@ class TransaksiController extends BaseController
             $value['pesanan'] = json_decode($value['pesanan'], true);
         }
 
-        return view('admin/transaksi', ['transaksi' => $transaksi]);
+        $data['transaksi'] = $transaksi;
+
+        return view('admin/transaksi', $data);
     }
 
     public function ready($id)
@@ -53,7 +55,6 @@ class TransaksiController extends BaseController
             ->where('is_ready', 2)
             ->Where('tanggal', $filterDate)
             ->find();
-
 
         $data = [
             'riwayat'    => $riwayat,

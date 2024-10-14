@@ -8,7 +8,7 @@
 <div class="row">
     <?php foreach ($transaksi as $value) : ?>
         <div class="col-sm-4 mb-3 mb-sm-0">
-            <div class="card mb-3">
+            <div class="card border border-dark mb-3" style="overflow: hidden;">
                 <div class="card-header bg-primary text-light shadow">
                     <div class="row">
                         <div class="col-8">
@@ -34,7 +34,7 @@
                             </p>
                         </div>
                     <?php endforeach; ?>
-                    <hr>
+                    <hr style="background-color:black;">
                     <p class="card-text">Total: <?= number_to_currency($value['total'], 'IDR', 'id_ID', 0); ?></p>
                     <form action="<?= url_to('ready', $value['id_transaksi']); ?>" method="post" class="d-inline">
                         <?= csrf_field(); ?>
@@ -50,10 +50,10 @@
         <div class="modal fade" id="exampleModal-<?= $value['order_id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-primary text-light">
                         <h5 class="modal-title" id="buktiModalLabel-<?= $value['id_transaksi']; ?>">Bukti Pembayaran</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true" class="text-light">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body text-center">
