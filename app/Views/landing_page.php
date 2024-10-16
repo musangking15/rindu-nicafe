@@ -51,21 +51,23 @@
     <!-- end navbar -->
 
     <!-- start menu -->
-    <section class="my-5">
-        <div class="container d-flex justify-content-center gap-2">
-            <a style="font-size: 10px;" href="<?= base_url('/'); ?>"
-                class="btn btn-sm btn-outline-primary <?= (empty($selectedCategory) ? 'active' : '') ?>">
-                All
-            </a>
-            <?php foreach ($kategori as $k) : ?>
-                <a style="font-size: 10px;" href="<?= base_url('/?category=' . $k['nama_kategori']); ?>"
-                    class="btn btn-sm btn-outline-primary <?= ($selectedCategory == $k['nama_kategori'] ? 'active' : '') ?>">
-                    <?= ucfirst($k['nama_kategori']); ?>
+    <section class="my-3">
+        <div class="container">
+            <div class="d-flex gap-2 overflow-x-auto flex-nowrap py-3 justify-content-md-center">
+                <a style="font-size: 10px;" href="<?= base_url('/'); ?>"
+                    class="btn btn-sm btn-outline-primary <?= (empty($selectedCategory) ? 'active' : '') ?>">
+                    All
                 </a>
-            <?php endforeach ?>
+                <?php foreach ($kategori as $k) : ?>
+                    <a style="font-size: 10px;" href="<?= base_url('/?category=' . $k['nama_kategori']); ?>"
+                        class="btn btn-sm btn-outline-primary <?= ($selectedCategory == $k['nama_kategori'] ? 'active' : '') ?>">
+                        <?= ucfirst($k['nama_kategori']); ?>
+                    </a>
+                <?php endforeach ?>
+            </div>
         </div>
 
-        <div class="container mt-5">
+        <div class="container mt-4">
             <div class="row px-2 <?= count($items) > 1 ? 'row-cols-2' : '' ?>">
                 <?php foreach ($items as $item) : ?>
                     <div class="col-sm-6 mb-3">
@@ -210,6 +212,10 @@
 
         checkCustomerInput();
 
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        }
     });
 </script>
 

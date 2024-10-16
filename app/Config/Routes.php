@@ -11,6 +11,9 @@ $routes->get('/logout', 'Home::logout', ['as' => 'logout']);
 $routes->get('/cek', 'Home::cek');
 $routes->get('/destroy', 'Home::destroy');
 $routes->get('/delete/(:any)', 'Home::delete/$1', ['as' => 'delete']);
+$routes->set404Override(function () {
+    return view('errors/error_page');
+});
 
 
 
