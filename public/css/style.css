@@ -56,6 +56,10 @@ body {
   white-space: nowrap;
 }
 
+#category a {
+  font-size: 20px;
+}
+
 @media only screen and (max-width: 600px) {
   .card-img-top {
     height: 200px;
@@ -74,5 +78,9 @@ body {
 
   .tooltip-note {
     width: 80%;
+  }
+
+  #category a {
+    font-size: 10px;
   }
 }

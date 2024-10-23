@@ -52,14 +52,14 @@
 
     <!-- start menu -->
     <section class="my-3">
-        <div class="container">
-            <div class="d-flex gap-2 overflow-x-auto flex-nowrap py-3 justify-content-md-center">
-                <a style="font-size: 10px;" href="<?= base_url('/'); ?>"
+        <div class="container d-flex justify-content-center">
+            <div class="d-flex gap-2 overflow-x-auto flex-nowrap py-3 justify-content-lg-center" id="category">
+                <a href="<?= base_url('/'); ?>"
                     class="btn btn-sm btn-outline-primary <?= (empty($selectedCategory) ? 'active' : '') ?>">
                     All
                 </a>
                 <?php foreach ($kategori as $k) : ?>
-                    <a style="font-size: 10px;" href="<?= base_url('/?category=' . $k['nama_kategori']); ?>"
+                    <a href="<?= base_url('/?category=' . $k['nama_kategori']); ?>"
                         class="btn btn-sm btn-outline-primary <?= ($selectedCategory == $k['nama_kategori'] ? 'active' : '') ?>">
                         <?= ucfirst($k['nama_kategori']); ?>
                     </a>
@@ -198,24 +198,25 @@
         const receiptInput = document.getElementById('receipt')
         const btnOrder = document.getElementById('order');
 
-        function checkCustomerInput() {
-            if (customerInput.value.trim() === '' || receiptInput.files.length === 0) {
-                btnOrder.setAttribute('disabled', true);
-            } else {
-                btnOrder.removeAttribute('disabled');
+        if (customerInput && receiptInput && btnOrder) {
+            function checkCustomerInput() {
+                if (customerInput.value.trim() === '' || receiptInput.files.length === 0) {
+                    btnOrder.setAttribute('disabled', true);
+                } else {
+                    btnOrder.removeAttribute('disabled');
+                }
             }
+
+            customerInput.addEventListener('input', checkCustomerInput);
+            receiptInput.addEventListener('change', checkCustomerInput);
+
+            checkCustomerInput();
         }
 
+        // function isMobile() {
+        //     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        customerInput.addEventListener('input', checkCustomerInput);
-        receiptInput.addEventListener('change', checkCustomerInput);
-
-        checkCustomerInput();
-
-        function isMobile() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-        }
+        // }
     });
 </script>
 
