@@ -106,11 +106,11 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-        'isLoggedIn' => [
-            'before' => [
-                'admin',
-                'admin/*'
-            ]
-        ]
+        // 'isLoggedIn' => [
+        //     'before' => [
+        //         'admin',
+        //         'admin/*'
+        //     ]
+        // ]
     ];
 }

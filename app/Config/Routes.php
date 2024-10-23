@@ -17,7 +17,7 @@ $routes->set404Override(function () {
 
 
 
-$routes->group('admin', static function ($routes) {
+$routes->group('admin', ['filter' => 'isLoggedIn'], static function ($routes) {
     $routes->addRedirect('/', 'admin/transaksi');
     $routes->get('transaksi', 'TransaksiController::index', ['as' => 'transaksi']);
     $routes->post('transaksi/ready/(:any)', 'TransaksiController::ready/$1', ['as' => 'ready']);
