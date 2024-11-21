@@ -1,20 +1,21 @@
 <?php
 
+use CodeIgniter\Commands\Utilities\Routes;
 use CodeIgniter\Router\RouteCollection;
 
 /**
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
-$routes->post('/login', 'Home::login', ['as' => 'login']);
-$routes->get('/logout', 'Home::logout', ['as' => 'logout']);
-$routes->get('/cek', 'Home::cek');
+$routes->get('login', 'AuthController::index');
+$routes->post('login', 'AuthController::login', ['as' => 'login']);
+$routes->get('logout', 'AuthController::logout', ['as' => 'logout']);
 $routes->get('/destroy', 'Home::destroy');
 $routes->get('/delete/(:any)', 'Home::delete/$1', ['as' => 'delete']);
 $routes->set404Override(function () {
     return view('errors/error_page');
 });
-
+// $routes->get('/cek', 'Home::cek');
 
 
 $routes->group('admin', ['filter' => 'isLoggedIn'], static function ($routes) {

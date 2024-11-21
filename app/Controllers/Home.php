@@ -26,6 +26,15 @@ class Home extends BaseController
 
     public function index()
     {
+        // if (!session()->has('hasSeenSplash')) {
+        //     session()->set('hasSeenSplash', true);
+        //     return redirect()->to('/splash'); // Redirect ke halaman splash jika belum pernah dilihat
+        // }
+
+        // if (session()->has('hasSeenSplash')) {
+        //     session()->remove('hasSeenSplash');
+        // }
+
         if (session()->has('username')) {
             return redirect()->route('transaksi');
         }
@@ -58,43 +67,6 @@ class Home extends BaseController
         return view('landing_page', $data);
     }
 
-    public function login()
-    {
-        $user = $this->request->getVar();
-
-        if (empty($user['username']) || empty($user['password'])) {
-            session()->setFlashdata('jenis', 'warning');
-            session()->setFlashdata('pesan1', 'Gagal Login!');
-            session()->setFlashdata('pesan2', 'Username dan Password tidak boleh kosong');
-            return redirect()->back();
-        }
-
-        $admin = $this->userModel->where('username', $user['username'])->first();
-
-        if ($admin) {
-            if (password_verify($user['password'], $admin['password'])) {
-                $params['username'] = $admin['username'];
-                session()->set($params);
-                return redirect()->route('transaksi');
-            } else {
-                session()->setFlashdata('jenis', 'warning');
-                session()->setFlashdata('pesan1', 'Gagal Login!');
-                session()->setFlashdata('pesan2', 'Password salah');
-                return redirect()->back();
-            }
-        } else {
-            session()->setFlashdata('jenis', 'warning');
-            session()->setFlashdata('pesan1', 'Gagal Login!');
-            session()->setFlashdata('pesan2', 'Username salah');
-            return redirect()->back();
-        }
-    }
-
-    public function logout()
-    {
-        session()->destroy();
-        return redirect()->to('/');
-    }
 
     // public function cek()
     // {

@@ -4,9 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript"
-        src="https://app.sandbox.midtrans.com/snap/snap.js"
-        data-client-key="SB-Mid-client-1HbQdzP9Etrnz8U8"></script>
     <title>Rindu Nicafe</title>
     <!-- Favicon -->
     <link rel="icon" href="<?= base_url(); ?>/img/logo2.png" sizes="16x16" type="image/png">
@@ -14,10 +11,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Bootstrap Font Icon CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url() ?>css/style.css">
 </head>
 
 <body>
+    <!-- splash screen -->
+    <div class="splash-screen">
+        <img src="<?= base_url(); ?>/img/logo2.png" alt="Logo" width="200" data-aos="zoom-in" data-aos-duration="2000">
+    </div>
+    <!-- splash screen -->
+
+
     <!-- start navbar -->
     <nav class="navbar navbar-expand-lg bg-info">
         <div class="container">
@@ -36,16 +46,6 @@
                     </span>
                 <?php endif ?>
             </button>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ms-auto fs-5">
-                    <button type="button" class="btn btn-danger fw-semibold" data-bs-toggle="modal" data-bs-target="#login">
-                        Login
-                    </button>
-                </div>
-            </div>
         </div>
     </nav>
     <!-- end navbar -->
@@ -76,17 +76,18 @@
                         echo form_hidden('id', $item['id_menu']);
                         echo form_hidden('price', $item['harga']);
                         echo form_hidden('name', $item['nama_makanan']);
+                        echo csrf_field();
                         ?>
-                        <div class="card">
+                        <div class="card px-2 pt-2">
                             <img src="<?= base_url('gambar/') . $item['gambar'] ?>" class="card-img-top">
                             <div class="card-body">
-                                <p class="card-title fw-bold"><?= $item['nama_makanan']; ?></p>
+                                <h5 class="card-title fw-bold"><?= $item['nama_makanan']; ?></h5>
                                 <div class="deskripsi">
                                     <p><?= $item['deskripsi']; ?></p>
                                 </div>
                                 <p class="card-text"><?= number_to_currency($item['harga'], 'IDR', 'id_ID', 0); ?></p>
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-primary">Beli</button>
+                                    <button type="submit" class="btn btn-primary fw-bold">Beli</button>
                                 </div>
                                 <div class="tooltip-note"><?= $item['deskripsi']; ?></div>
                             </div>
@@ -150,15 +151,14 @@
 
 
     <!-- Modal login -->
-    <div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center bg-info">
                     <p class="modal-title fs-2 fw-bold text-light" id="staticBackdropLabel">Login</p>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="<?= url_to('login'); ?>">
-                        <?= csrf_field(); ?>
+                    <form method="post" action="">
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" name='username' class="form-control" id="username">
@@ -176,7 +176,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 </body>
@@ -184,8 +184,25 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <!-- Sweet Alert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        AOS.init();
+
+        const splashScreen = document.querySelector('.splash-screen')
+
+        if (!localStorage.getItem('splashShown')) {
+            // Jika belum pernah, jalankan animasi
+            setTimeout(() => {
+                splashScreen.classList.add('fade-out-up');
+                localStorage.setItem('splashShown', 'true');
+            }, 5000);
+        } else {
+            splashScreen.style.zIndex = '0';
+            splashScreen.style.display = 'none';
+        };
+
         <?php if (session()->getFlashdata('pesan1')) : ?>
             Swal.fire({
                 icon: '<?= session()->getFlashdata('jenis'); ?>',
@@ -213,10 +230,6 @@
             checkCustomerInput();
         }
 
-        // function isMobile() {
-        //     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-        // }
     });
 </script>
 
